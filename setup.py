@@ -10,7 +10,7 @@ readme = f.read()
 f.close()
 
 setup(
-    name='django-taggit',
+    name='django-magic-quotes',
     version=".".join(map(str, VERSION)),
     description='django-magic-quotes is a Django application for adding quotes to your site.',
     long_description=readme,
