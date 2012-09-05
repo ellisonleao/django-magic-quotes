@@ -1,0 +1,15 @@
+        <blockquote class="quote-item {% if forloop.first %}quote-first{% endif %}">
+            <div class="quote-body">
+                <p class="quote-text"><a href="{{ quote.get_absolute_url }}">{{ quote.quote }}</a></p>
+                <p class="quote-author"><a href="{% url author quote.author.slug %}">{{ quote.author.title }}</a> {{ quote.author.description }}</p>
+            </div>
+            <div class="quote-footer">
+                {% if quote.get_tags %}
+                <p class="quote-tags fl"><b>Tags.</b> {% for tag in quote.get_tags %}<a href="{% url tag_search tag %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                {% endif %}
+                <p class="quote-issue fl"><b>Edição.</b> <a href="{% url issues_quote quote.issue.slug %}">{{ quote.issue }}</a></p>
+                <div class="fr">
+                    {% include "includes/share_quote.html" %}
+                </div>
+            </div>
+        </blockquote>

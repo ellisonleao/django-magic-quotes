@@ -1,0 +1,54 @@
+{% extends 'citacoes/index.html' %}
+
+{% block quotes_form %}
+<div class="quotes-issue-pagination">
+    {% if issue.get_previous_issue %}<a href="{% url issues_quote issue.get_previous_issue.slug %}" class="issue-control issue-prev fl">edição anterior</a>{% endif %}
+    <p class="fl">Citações da <b>{{ issue.name }}.</b> {{ issue.date_available|date:"F \d\e Y" }}</p>
+    {% if issue.get_next_issue %}<a href="{% url issues_quote issue.get_next_issue.slug %}" class="issue-control issue-next fr">próxima edição</a>{% endif %}
+</div>
+{% endblock %}
+
+{% block extra_tags %}
+    <meta name="author" content="CARAS">
+    <meta property="og:image" content="http://caras.uol.com.br/img/logo_caras_original_150_red.png" />
+    <meta property="og:description" content="{{ quote.quote }}"/>
+    <meta property="og:title" content="CITAÇÕES - CARAS" />
+    
+    <meta name="description" content="CARAS: o mundo das celebridades com fotos, vídeos e noticias de atores, atrizes e famosos. Veja os perfis dos famosos e assista à TV Caras!">
+    <link rel="canonical" href="http://caras.uol.com.br{{ request.path }}">
+{% endblock %}
+
+{% block quotes_body %}
+    <blockquote class="quote-item quote-show">
+        <div class="quote-body">
+            <p class="quote-text">{{ quote.quote|safe }}</p>
+            <p class="quote-author"><a href="{% url author quote.author.slug %}">{{ quote.author.title }}</a> {{ quote.author.description }}</p>
+        </div>
+        <div class="quote-footer">
+            {% if quote.get_tags %}
+            <p class="quote-tags fl"><b>Tags.</b> {% for tag in quote.get_tags %}<a href="{% url tag_search tag %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+            {% endif %}
+            <div class="fr">
+                {% include "includes/share_quote_item.html" %}
+            </div>
+        </div>
+    </blockquote>
+    <div class="fb-comments" data-href="{{ quote.url }}" data-num-posts="10" data-width="768"></div> 
+{% endblock %}
+{% block quote_footer %}
+ <a href="https://www.assine.abril.com.br/portal/carrinho!adicionarProdutoRedirect.action?form.item[0].codCampanha=P5F0&form.item[0].codProjeto=986&form.item[0].qtdEdicoesVigencia=104&num_dbm=$$NUM_DBM$$&form.item[0].qtdParcelas=7&origem=sr/ca/selo/editorial" class="chamada_editorial" target="_blank"><img src="/img/website/Rodapé-Editoral.gif" /></a>
+
+{% with quote as share_object %}
+    {% include 'includes/share_rating.html' %}
+{% endwith %}
+
+{% if show_banners %}
+    <div class="banner_rodape">
+        <script type="text/javascript">
+        // Exibe Botao 728x90
+            DEshow('728x90',8);
+        </script>
+    </div>
+{% endif %}
+
+{% endblock %}

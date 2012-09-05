@@ -1,0 +1,14 @@
+{% extends 'citacoes/index.html' %}
+{% load pagination_tags %}
+    {% block quotes_body %}
+    {% autopaginate result 10 %}
+    <div class="quotes-itens">
+        <p class="quotes-tag_name">Resultados da busca</p>
+        {% for quote in result %}
+        {% include "citacoes/quote.html" %}
+        {% empty %}
+        <p>Nenhuma citação encontrada.</p>
+        {% endfor %}
+    </div>
+    {% paginate %}
+    {% endblock %}

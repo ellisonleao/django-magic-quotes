@@ -1,0 +1,12 @@
+{% extends 'citacoes/index.html' %}
+
+    {% block quotes_body %}
+    <div class="quotes-itens">
+        <p class="quotes-tag_name">Citações com a tag: <b>{{ tag_name }}</b></p>
+        {% for quote in quotes %}
+            {% include "citacoes/quote.html" %}
+        {% empty%}
+        <p>Nenhuma citação encontrada.</p>
+        {% endfor %}
+    </div>
+    {% endblock %}

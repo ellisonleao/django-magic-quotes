@@ -1,0 +1,21 @@
+{% extends 'citacoes/index.html' %}
+ {% load pagination_tags %}
+    {% block quotes_form %}
+    <div class="quotes-issue-pagination">
+        {% if issue.get_previous_issue %}<a href="{% url issues_quote issue.get_previous_issue.slug %}" class="issue-control issue-prev fl">edição anterior</a>{% endif %}
+        <p class="fl">Citações da <b>{{ issue.name }}.</b> {{ issue.date_available|date:"F \d\e Y" }}</p>
+        {% if issue.get_next_issue %}<a href="{% url issues_quote issue.get_next_issue.slug %}" class="issue-control issue-next fr">próxima edição</a>{% endif %}
+    </div>
+    {% endblock %}
+    {% block quotes_body %}
+    {% autopaginate quotes 10 %}
+    <div class="quotes-itens">
+        <p class="quotes-tag_name">{{ issue.title }}</p>
+        {% for quote in quotes %}
+        {% include "citacoes/quote.html" %}
+        {% empty %}
+        <p>Sem citações para esta revista</p>
+        {% endfor %}
+    </div>
+    {% paginate %}
+    {% endblock %}

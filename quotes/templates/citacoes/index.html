@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block styles%}
+    <link rel="stylesheet" href="/css/website/common.css?1">
+    <link rel="stylesheet" href="/css/website/style.css?1">
+    <link rel="stylesheet" href="/css/website/quotes/ui-lightness/jquery-ui-1.8.22.custom.css?1">
+    <link rel="stylesheet" href="/css/website/quotes.css?1">
+{% endblock %}
+
+{% block main_grid %}grid_w768{% endblock %}
+{% block main %}
+{% comment %}
+<div class="edition-info clearfix">
+    <span class="edition-page fl">Notícias</span>
+    <p class="edition-detail fr"><span>Revista Caras</span> | 26 de julho de 2012 | Edição 977 - Ano 18</p>
+</div>
+{% endcomment %}
+<div class="quotes">
+    <div class="quotes-hcontainer clearfix">
+        <div class="quotes-header">
+           <h2><span class="ico-quotes"></span><a href="{% url quotes %}">Citações</a></h2>
+           <div>
+           </div>
+        </div>
+        {% block quotes_form %}
+        <form class="quotes-form" action="{% url search_quote %}" method="get">
+            <label class="fl" for="id_search">Procurar citação</label>
+            <div class="fl ui-widget">
+                <input class="quotes-search-input fl" id="id_search" name="term" placeholder="Por assunto, por autor ou edição">
+                <input class="quotes-search-submit fr" type="submit" value="">
+            </div>
+        </form>
+        {% endblock %}
+    </div>
+    {% block quotes_body %}
+    <h2 class="quotes-most-header">ÚLTIMAS CITAÇÕES</h2>
+    <div class="quotes-itens">
+        {% for quote in quotes %}
+        {% include "citacoes/quote.html" %}
+        {% endfor %}
+    </div>
+    {% endblock %}
+</div>
+{% if most_commented %}
+<div class="quotes-most-comments">
+    <h2 class="quotes-most-header">As citações <b>mais lidas</b></h2>
+    <div class="quotes-itens">
+        {% for quote in most_commented %}
+        <blockquote class="quote-item quote-item-most{% if forloop.last %}quote-last{% endif %}">
+            <div class="quote-body">
+                <p class="quote-text"><a href="{{ quote.0.get_absolute_url }}">{{ quote.0.quote }}</a></p>
+                <p class="quote-author"><a href="{% url author quote.0.author.slug %}">{{ quote.0.author.title }}</a> {{ quote.0.author.description }}</p>
+            </div>
+            <div class="quote-footer">
+                <p class="quote-tags fl"><b>Tags.</b> {% for tag in quote.0.get_tags %}<a href="{% url tag_search tag %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                <div class="fr">
+                    {% include "includes/share_quote.html" %}
+                </div>
+            </div>
+        </blockquote>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% block quote_footer %}{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="/js/website/quotes/jquery-ui-1.8.22.custom.min.js?1"></script>
+<script type="text/javascript" src="/js/website/quotes/search_quotes.js?1"></script>
+{% endblock %}
+{% endblock %}
+{% block sidebar %}
+	{% include 'includes/clock.html' %}
+	{% include 'includes/lastest_news.html' %}
+	{% include 'includes/most_read.html' %}
+	{% include 'includes/twitter_internal.html' %}
+{% endblock %}
+
