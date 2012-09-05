@@ -1,4 +1,4 @@
-django-magic-quotes
+Django Magic Quotes
 ===================
 
-Quotes app for your Django application
+So, you like to share the most inspirational quotes of the world in your django application? YOUR PROBLEMS ARE OVER!
